@@ -39,15 +39,19 @@ export class StreamController implements OnModuleInit {
 
       let response: string = null;
 
-      responseObserver.subscribe(value => {
-        response = value.response;
-      }, err => {
-        reject(err);
-      }, () => {
-        this.logger.debug('Request finished, sending response...');
-        this.logger.debug(response);
-        resolve(response);
-      });
+      responseObserver.subscribe(
+        value => {
+          response = value.response;
+        },
+        err => {
+          reject(err);
+        },
+        () => {
+          this.logger.debug('Request finished, sending response...');
+          this.logger.debug(response);
+          resolve(response);
+        }
+      );
 
       this.logger.debug(`Sending ${streamDto.numMessages} messages to gRPC server`);
       for (let i = 0; i < streamDto.numMessages; i++) {
